@@ -76,11 +76,11 @@ class Cursor
   end
 
   def handle_key(key)
-    case KEYMAP[key]
-    when :return || :space
+    case key
+    when :return, :space
       @cursor_pos
-    when :left || :down || :right || :up
-      update_pos(MOVES[KEYMAP[key]])
+    when :left, :down, :right, :up
+      update_pos(MOVES[key])
     when :ctrl_c
       Process.exit(0)
     end
@@ -88,7 +88,7 @@ class Cursor
 
   def update_pos(diff)
     new_pos = [@cursor_pos[0] + diff[0], @cursor_pos[1] + diff[1]]
-    @cursor_pos = new_pos if valid_pos?(new_pos)
+    @cursor_pos = new_pos if board.on_board?(new_pos)
   end
 
 
